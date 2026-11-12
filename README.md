@@ -28,6 +28,7 @@ Team Mavin (Group 2, Team 16)
 
 ## Contributors
 - Martin Milad
+- kirolols ayman
 
 ## Links
 - Jira board: (add link after creating Jira)
