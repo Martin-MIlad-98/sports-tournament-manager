@@ -38,18 +38,24 @@ def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
     return total
 
 
+LABELS = {
+    StudentType.REGULAR: "Student fee",
+    StudentType.STAFF_CHILD: "Staff child fee",
+}
+
+
 def report(courses, student_type, summer=False, discount=0):
     fee = tuition_fee(courses, student_type, summer, discount)
-    if student_type == StudentType.REGULAR:
-        print("Student fee: " + str(fee))
-    elif student_type == StudentType.STAFF_CHILD:
-        print("Staff child fee: " + str(fee))
+    lines = []
+    if student_type in LABELS:
+        lines.append(f"{LABELS[student_type]}: {fee}")
     if fee > HIGH_FEE_LIMIT:
-        print("High fee")
-    return fee
+        lines.append("High fee")
+    return "\n".join(lines)
 
 
 def process_all(students):
+    fees = {}
     for student in students:
         if student["type"] == StudentType.REGULAR:
             fee = tuition_fee(
@@ -59,4 +65,5 @@ def process_all(students):
             fee = tuition_fee(
                 student["courses"], StudentType.STAFF_CHILD, student["summer"]
             )
-        print(student["name"], fee)
+        fees[student["name"]] = fee
+    return fees
