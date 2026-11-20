@@ -1,3 +1,5 @@
+"""Tuition fee calculation for the Student Services App (refactored)."""
+
 from dataclasses import dataclass
 from enum import Enum
 
@@ -8,6 +10,8 @@ SUMMER_FEE = 150
 
 
 class StudentType(Enum):
+    """The kinds of student, each with its own share of the hourly rate."""
+
     REGULAR = 1
     STAFF_CHILD = 2
     SCHOLARSHIP = 3
@@ -15,6 +19,8 @@ class StudentType(Enum):
 
 @dataclass(frozen=True)
 class Course:
+    """A course the student is registered in."""
+
     hours: int
 
 
@@ -25,8 +31,15 @@ RATE_SHARE = {
     StudentType.SCHOLARSHIP: 0,
 }
 
+LABELS = {
+    StudentType.REGULAR: "Student fee",
+    StudentType.STAFF_CHILD: "Staff child fee",
+    StudentType.SCHOLARSHIP: "Scholarship fee",
+}
+
 
 def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
+    """Return the tuition fee for one student."""
     hours = sum(course.hours for course in courses)
     total = hours * RATE_PER_HOUR * RATE_SHARE[student_type]
     if total > HIGH_FEE_LIMIT:
@@ -38,32 +51,20 @@ def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
     return total
 
 
-LABELS = {
-    StudentType.REGULAR: "Student fee",
-    StudentType.STAFF_CHILD: "Staff child fee",
-}
-
-
 def report(courses, student_type, summer=False, discount=0):
+    """Return the fee report for one student as text (no printing)."""
     fee = tuition_fee(courses, student_type, summer, discount)
-    lines = []
-    if student_type in LABELS:
-        lines.append(f"{LABELS[student_type]}: {fee}")
+    lines = [f"{LABELS[student_type]}: {fee}"]
     if fee > HIGH_FEE_LIMIT:
         lines.append("High fee")
     return "\n".join(lines)
 
 
 def process_all(students):
-    fees = {}
-    for student in students:
-        if student["type"] == StudentType.REGULAR:
-            fee = tuition_fee(
-                student["courses"], StudentType.REGULAR, student["summer"]
-            )
-        if student["type"] == StudentType.STAFF_CHILD:
-            fee = tuition_fee(
-                student["courses"], StudentType.STAFF_CHILD, student["summer"]
-            )
-        fees[student["name"]] = fee
-    return fees
+    """Return a {name: fee} dictionary with a fee for every student."""
+    return {
+        student["name"]: tuition_fee(
+            student["courses"], student["type"], student["summer"]
+        )
+        for student in students
+    }
