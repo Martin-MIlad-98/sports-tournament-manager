@@ -1,7 +1,6 @@
 from enum import Enum
 
 RATE_PER_HOUR = 350
-STAFF_CHILD_SHARE = 0.5
 HIGH_FEE_LIMIT = 6000
 HIGH_FEE_REDUCTION = 200
 SUMMER_FEE = 150
@@ -13,27 +12,27 @@ class StudentType(Enum):
     SCHOLARSHIP = 3
 
 
-def tuition_fee(courses, student_type, summer=False, discount=None, extras=[]):
-    total = 0
-    for course in courses:
-        if student_type == StudentType.REGULAR:
-            total = total + course["h"] * RATE_PER_HOUR
-        elif student_type == StudentType.STAFF_CHILD:
-            total = total + course["h"] * RATE_PER_HOUR * STAFF_CHILD_SHARE
-        elif student_type == StudentType.SCHOLARSHIP:
-            total = total + 0
+# Share of the full hourly rate that each type of student pays
+RATE_SHARE = {
+    StudentType.REGULAR: 1,
+    StudentType.STAFF_CHILD: 0.5,
+    StudentType.SCHOLARSHIP: 0,
+}
+
+
+def tuition_fee(courses, student_type, summer=False, discount=0, extras=[]):
+    hours = sum(course["h"] for course in courses)
+    total = hours * RATE_PER_HOUR * RATE_SHARE[student_type]
     if total > HIGH_FEE_LIMIT:
-        total = total - HIGH_FEE_REDUCTION
-    if summer == True:
-        total = total + SUMMER_FEE
-    if discount != None:
-        total = total - discount
-    for extra in extras:
-        total = total + extra
+        total -= HIGH_FEE_REDUCTION
+    if summer:
+        total += SUMMER_FEE
+    total -= discount
+    total += sum(extras)
     return total
 
 
-def report(courses, student_type, summer=False, discount=None):
+def report(courses, student_type, summer=False, discount=0):
     fee = tuition_fee(courses, student_type, summer, discount)
     if student_type == StudentType.REGULAR:
         print("Student fee: " + str(fee))
