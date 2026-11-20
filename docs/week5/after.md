@@ -28,4 +28,10 @@ preparing the deliverables for integration into `sports-tournament-manager`.
 
 ## Pair Programming Reflection
 
-During our pair programming session, while we reviewed `grades.py`, `test_grades.py`, and the boundary conditions. We switched driver and navigator roles every 12 minutes across three rounds to examine the named constants, `fees.py` refactoring, and the scholarship (`type == 3`) bug in `ProcessAll`. Navigating together helped us catch edge cases—such as out-of-range scores, non-numeric inputs, and avoiding shared state or leaked loop values—and verify all 23 tests in `pytest`. We also recorded our Grades Kata progress across multiple commits and added a `Co-authored-by` trailer for our partner on the final Grades Kata commit.
+Pending — pair programming session has not been completed yet. After completing
+the session with your partner, replace this note with 3–4 genuine sentences
+describing:
+1. Who acted as driver and who acted as navigator.
+2. When you switched roles (every ~12 minutes across rounds).
+3. What you reviewed, learned, or solved together.
+4. How you recorded your pair commits in Git.
