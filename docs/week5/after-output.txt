@@ -1,0 +1,94 @@
+== pytest -v ==
+============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\Martin Milad\Desktop\sports-tournament-manager\week5\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Martin Milad\Desktop\sports-tournament-manager\week5
+configfile: pyproject.toml
+plugins: platformdirs-4.14.8
+collecting ... collected 16 items
+
+test_fees.py::test_same_result_as_legacy[hours0-1-StudentType.REGULAR-False] PASSED [  6%]
+test_fees.py::test_same_result_as_legacy[hours1-1-StudentType.REGULAR-True] PASSED [ 12%]
+test_fees.py::test_same_result_as_legacy[hours2-2-StudentType.STAFF_CHILD-False] PASSED [ 18%]
+test_fees.py::test_same_result_as_legacy[hours3-3-StudentType.SCHOLARSHIP-True] PASSED [ 25%]
+test_fees.py::test_large_fee_gets_reduction PASSED                       [ 31%]
+test_fees.py::test_scholarship_student_is_not_skipped PASSED             [ 37%]
+test_grades.py::test_ninety_is_an_a PASSED                               [ 43%]
+test_grades.py::test_eighty_nine_is_a_b PASSED                           [ 50%]
+test_grades.py::test_below_sixty_fails PASSED                            [ 56%]
+test_grades.py::test_score_above_100_is_rejected PASSED                  [ 62%]
+test_grades.py::test_zero_fails PASSED                                   [ 68%]
+test_grades.py::test_hundred_is_an_a PASSED                              [ 75%]
+test_grades.py::test_sixty_is_a_d PASSED                                 [ 81%]
+test_grades.py::test_sixty_nine_is_a_d PASSED                            [ 87%]
+test_grades.py::test_seventy_is_a_c PASSED                               [ 93%]
+test_grades.py::test_negative_score_is_rejected PASSED                   [100%]
+
+============================= 16 passed in 0.04s ==============================
+
+== ruff check . --extend-exclude legacy_fees.py ==
+All checks passed!
+
+== ruff format --check . --extend-exclude legacy_fees.py ==
+4 files already formatted
+
+== pylint fees.py ==
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+== complexity of every function (C901 with limit 0) ==
+C901 `tuition_fee` is too complex (3 > 0)
+  --> fees.py:41:5
+   |
+41 | def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
+   |     ^^^^^^^^^^^
+42 |     """Return the tuition fee for one student."""
+43 |     hours = sum(course.hours for course in courses)
+   |
+
+C901 `report` is too complex (2 > 0)
+  --> fees.py:54:5
+   |
+54 | def report(courses, student_type, summer=False, discount=0):
+   |     ^^^^^^
+55 |     """Return the fee report for one student as text (no printing)."""
+56 |     fee = tuition_fee(courses, student_type, summer, discount)
+   |
+
+C901 `process_all` is too complex (1 > 0)
+  --> fees.py:63:5
+   |
+63 | def process_all(students):
+   |     ^^^^^^^^^^^
+64 |     """Return a {name: fee} dictionary with a fee for every student."""
+65 |     return {
+   |
+
+C901 `calc` is too complex (9 > 0)
+ --> legacy_fees.py:5:5
+  |
+5 | def calc(d, t, y, s, disc, extra=[]):
+  |     ^^^^
+6 |     # t: 1=student, 2=staff child, 3=scholarship
+7 |     total = 0
+  |
+
+C901 `report` is too complex (4 > 0)
+  --> legacy_fees.py:27:5
+   |
+27 | def report(d, t, y, s, disc):
+   |     ^^^^^^
+28 |     x = calc(d, t, y, s, disc)
+29 |     if t == 1:
+   |
+
+C901 `ProcessAll` is too complex (4 > 0)
+  --> legacy_fees.py:38:5
+   |
+38 | def ProcessAll(students):
+   |     ^^^^^^^^^^
+39 |     for st in students:
+40 |         if st["type"] == 1:
+   |
+
+Found 6 errors.

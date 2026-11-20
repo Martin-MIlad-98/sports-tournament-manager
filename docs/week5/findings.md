@@ -1,6 +1,6 @@
 # Week 5 - Findings (Part C)
 
-Pair: Martin Milad (did the lab) and Kirolos Ayman Abdelmalk (reviewed the pull request)
+Pair: Martin Milad (driver) and Kirolos Ayman Abdelmalk (navigator)
 File analysed: `week5/legacy_fees.py` (kept unchanged)
 Raw tool output: `docs/week5/before.txt`
 
