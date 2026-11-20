@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from enum import Enum
 
 RATE_PER_HOUR = 350
@@ -12,6 +13,11 @@ class StudentType(Enum):
     SCHOLARSHIP = 3
 
 
+@dataclass(frozen=True)
+class Course:
+    hours: int
+
+
 # Share of the full hourly rate that each type of student pays
 RATE_SHARE = {
     StudentType.REGULAR: 1,
@@ -20,8 +26,8 @@ RATE_SHARE = {
 }
 
 
-def tuition_fee(courses, student_type, summer=False, discount=0, extras=[]):
-    hours = sum(course["h"] for course in courses)
+def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
+    hours = sum(course.hours for course in courses)
     total = hours * RATE_PER_HOUR * RATE_SHARE[student_type]
     if total > HIGH_FEE_LIMIT:
         total -= HIGH_FEE_REDUCTION
