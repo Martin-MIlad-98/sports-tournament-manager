@@ -1,0 +1,14 @@
+{
+  "teams": [
+    { "id": 1, "name": "Engineering Eagles" },
+    { "id": 2, "name": "Business Bulls" },
+    { "id": 3, "name": "Pharmacy Panthers" },
+    { "id": 4, "name": "Arts Lions" }
+  ],
+  "players": [
+    { "id": 1, "teamId": 1, "name": "Test Player A", "shirtNumber": 7 },
+    { "id": 2, "teamId": 1, "name": "Test Player B", "shirtNumber": 10 },
+    { "id": 3, "teamId": 2, "name": "Test Player C", "shirtNumber": 9 }
+  ],
+  "matches": []
+}
