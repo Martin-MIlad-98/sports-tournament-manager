@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import globals from 'globals';
 
 export default [
-  { ignores: ['node_modules/', 'data/db.json'] },
+    { ignores: ['node_modules/', 'data/db.json', 'lab6/', '**/.venv/'] },
   js.configs.recommended,
   {
     files: ['**/*.js'],
