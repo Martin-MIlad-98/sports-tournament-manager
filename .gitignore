@@ -147,3 +147,7 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Sports Tournament Manager
+data/db.json
+data/db.json.tmp

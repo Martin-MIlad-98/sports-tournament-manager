@@ -1,0 +1,25 @@
+{
+  "name": "sports-tournament-manager",
+  "version": "0.1.0",
+  "description": "Sports Tournament Manager - Team Mavin (SET 312, Agile Software Engineering)",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test",
+    "lint": "eslint .",
+    "seed": "node scripts/reset-data.js"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0"
+  }
+}
