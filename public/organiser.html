@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Organiser - Sports Tournament Manager</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header id="site-header"></header>
+    <main>
+      <h1 class="page-title">Organiser panel</h1>
+      <p class="page-sub">Generate the round-robin fixtures, then enter each match result.</p>
+
+      <section class="card" style="margin-bottom: 1.25rem">
+        <h2>Fixtures</h2>
+        <div class="form-row">
+          <button id="generate-btn" class="btn accent" type="button">Generate fixtures</button>
+          <span id="fixtures-info" class="page-sub" style="margin: 0"></span>
+        </div>
+        <div id="generate-message" class="message" role="alert"></div>
+      </section>
+
+      <div id="rounds"></div>
+    </main>
+    <script type="module" src="/js/organiser.js"></script>
+  </body>
+</html>
