@@ -1,4 +1,4 @@
-// US-05 Generate fixtures (organiser view). The result form is added by US-08.
+// US-05 Generate fixtures + US-08 Enter a match result (organiser view)
 import { api } from './api.js';
 import { el, renderHeader, setMessage, toast, emptyState } from './ui.js';
 
@@ -9,21 +9,53 @@ const generateMessage = document.getElementById('generate-message');
 const info = document.getElementById('fixtures-info');
 const roundsHost = document.getElementById('rounds');
 
+function resultForm(match) {
+  const home = el('input', { type: 'number', min: '0', step: '1', 'aria-label': `${match.homeTeam} goals`, placeholder: '0' });
+  const away = el('input', { type: 'number', min: '0', step: '1', 'aria-label': `${match.awayTeam} goals`, placeholder: '0' });
+  const error = el('div', { class: 'message match-error', role: 'alert' });
+
+  const form = el(
+    'form',
+    {
+      class: 'result-form',
+      novalidate: true,
+      onSubmit: async (event) => {
+        event.preventDefault();
+        setMessage(error, '');
+        try {
+          await api(`/matches/${match.id}/result`, {
+            method: 'PUT',
+            body: { homeGoals: home.value, awayGoals: away.value },
+          });
+          toast('Result saved');
+          await load();
+        } catch (e) {
+          setMessage(error, e.message, 'error');
+        }
+      },
+    },
+    home,
+    el('span', {}, '–'),
+    away,
+    el('button', { class: 'btn small', type: 'submit' }, 'Save'),
+  );
+  return { form, error };
+}
+
 function matchRow(match) {
   const played = match.status === 'played';
   const middle = played
     ? el('span', { class: 'score' }, `${match.homeGoals} – ${match.awayGoals}`)
     : el('span', { class: 'score vs' }, 'vs');
-  return [
-    el(
-      'div',
-      { class: 'match' },
-      el('span', { class: 'home' }, match.homeTeam),
-      middle,
-      el('span', { class: 'away' }, match.awayTeam),
-      el('span', { class: `badge ${match.status} action` }, played ? 'Played' : 'Scheduled'),
-    ),
-  ];
+  const row = el('div', { class: 'match' }, el('span', { class: 'home' }, match.homeTeam), middle, el('span', { class: 'away' }, match.awayTeam));
+
+  if (played) {
+    row.append(el('span', { class: 'badge played action' }, 'Played'));
+    return [row];
+  }
+  const { form, error } = resultForm(match);
+  row.append(el('div', { class: 'action' }, form));
+  return [row, error];
 }
 
 async function load() {
